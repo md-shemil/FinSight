@@ -9,7 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.FinSight.entity.Transaction;
 import com.FinSight.service.TransactionService;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TransactionController {
@@ -34,7 +35,23 @@ public class TransactionController {
 	}
 
 	@PostMapping("/save")
-	public String addTransaction(@ModelAttribute Transaction transaction) {
+	public String addTransaction(@RequestParam("transactionType") String transactionType,
+								 @RequestParam(value = "category", required = false) String category,
+								 @RequestParam(value = "incomeCategory", required = false) String incomeCategory,
+								 @RequestParam("note") String note,
+								 @RequestParam("price") double price) {
+		Transaction transaction = new Transaction();
+		transaction.setTransactionType(transactionType);
+		transaction.setNote(note);
+		transaction.setPrice(price);
+
+		// Set the appropriate category based on the transaction type
+		if ("expense".equals(transactionType)) {
+			transaction.setCategory(category);
+		} else if ("income".equals(transactionType)) {
+			transaction.setIncomeCategory(incomeCategory);
+		}
+
 		service.save(transaction); // Saves the transaction
 		return "redirect:/transactionhistory"; // Redirects to transaction history after saving
 	}
@@ -42,9 +59,6 @@ public class TransactionController {
 	@GetMapping("/editTransaction/{id}")
 	public String editTransaction(@PathVariable("id") int id, Model model) {
 		Transaction transaction = service.getTransactionById(id);
-		if (transaction == null) {
-			// Handle transaction not found (optional: redirect or show error)
-		}
 		model.addAttribute("transaction", transaction); // Adds the transaction to the model for editing
 		return "TransactionEdit"; // Renders the edit transaction page
 	}
@@ -55,4 +69,9 @@ public class TransactionController {
 		return "redirect:/transactionhistory"; // Redirects to transaction history after deletion
 	}
 
+	@GetMapping("/api/financial-data/pie-data")
+	@ResponseBody
+	public Map<String, Double> getPieData() {
+		return service.getIncomeExpenseData(); // Returns the income and expense data
+	}
 }

@@ -1,33 +1,21 @@
 package com.FinSight.entity;
-import java.lang.Double;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "transactions")
 public class Transaction {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String transactionType; // Added to capture the transaction type
-	private String category;        // Changed from name to category
+	private String transactionType; // "income" or "expense"
+	private String category; // for expenses
+	private String incomeCategory; // for incomes
 	private String note;
-	private Double price;
-	      // Changed from amount to price
+	private double price;
 
-	public Transaction(int id, String transactionType, String category, String note, Double price) {
-		super();
-		this.id = id;
-		this.transactionType = transactionType;
-		this.category = category;
-		this.note = note;
-		this.price = price;
-	}
-
-	public Transaction() {
-		super();
-		// Default constructor
-	}
+	// Getters and Setters
 
 	public int getId() {
 		return id;
@@ -53,6 +41,14 @@ public class Transaction {
 		this.category = category;
 	}
 
+	public String getIncomeCategory() {
+		return incomeCategory;
+	}
+
+	public void setIncomeCategory(String incomeCategory) {
+		this.incomeCategory = incomeCategory;
+	}
+
 	public String getNote() {
 		return note;
 	}
@@ -61,11 +57,11 @@ public class Transaction {
 		this.note = note;
 	}
 
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 }
