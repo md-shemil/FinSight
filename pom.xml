@@ -8,11 +8,11 @@
 		<version>2.7.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.bookStore</groupId>
-	<artifactId>bookStore</artifactId>
+	<groupId>com.FinSight</groupId>
+	<artifactId>FinSight</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bookStore</name>
-	<description>This is book store project</description>
+	<name>FinSight</name>
+	<description>This is financial tracker project</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
